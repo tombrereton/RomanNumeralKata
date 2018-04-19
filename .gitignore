@@ -1,0 +1,5 @@
+.vs
+*.ncrunchsolution
+*.ncrunchsolution.*
+bin
+obj
