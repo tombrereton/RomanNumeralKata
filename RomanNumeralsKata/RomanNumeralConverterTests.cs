@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 
 namespace RomanNumeralsKata
@@ -37,6 +38,18 @@ namespace RomanNumeralsKata
         [TestCase(6, "VI")]
         [TestCase(7, "VII")]
         [TestCase(8, "VIII")]
+        [TestCase(9, "IX")]
+        [TestCase(10, "X")]
+        [TestCase(15, "XV")]
+        [TestCase(18, "XVIII")]
+        [TestCase(20, "XX")]
+        [TestCase(23, "XXIII")]
+        [TestCase(27, "XXVII")]
+        [TestCase(30, "XXX")]
+        [TestCase(36, "XXXVI")]
+        [TestCase(40, "XL")]
+        [TestCase(50, "L")]
+        [TestCase(43, "XLIII")]
         public void GivenWeReceiveAnArabicNumber_ThenWeReturnCorrectRomanNumeral(int input, string expected)
         {
             var result = RomanNumeralConverter.ConvertArabicToRomanNumeral(input);
@@ -54,22 +67,84 @@ namespace RomanNumeralsKata
                 {1, "I"},
                 {4, "IV"},
                 {5, "V"},
-                {6, "VI"},
-                {7, "VII"},
-                {8, "VIII"}
+                {9, "IX"},
+                {10, "X"},
+                {40, "XL"},
+                {50, "L"}
             };
 
-            if (input > 5)
+            var result = string.Empty;
+            while (input > 0)
             {
-                return "V" + ConvertArabicToRomanNumeral(input - 5);
+                if (romanNumerals.ContainsKey(input))
+                {
+                    result += romanNumerals[input];
+                    input -= input;
+                }
+
+                if (input > 50)
+                {
+                    result += "L";
+                    input -= 50;
+                }
+
+                if (input > 40)
+                {
+                    result += "XL";
+                    input -= 40;
+                }
+
+                if (input >= 10)
+                {
+                    result += "X";
+                    input -= 10;
+                    continue;
+                }
+
+                if (input >= 5)
+                {
+                    result += "V";
+                    input -= 5;
+                }
+
+                if (input == 4)
+                {
+                    result += "IV";
+                    input -= 4;
+                }
+
+                if (input > 0)
+                {
+                    result += "I";
+                    input -= 1;
+                }
             }
 
-            if (romanNumerals.ContainsKey(input))
-            {
-                return romanNumerals[input];
-            }
+            return result;
 
-            return "I" + ConvertArabicToRomanNumeral(input - 1);
+
+            //if (input > 50)
+            //{
+            //    return "L" + ConvertArabicToRomanNumeral(input - 50);
+            //}
+
+            //if (input > 40)
+            //{
+            //    return "XL" + ConvertArabicToRomanNumeral(input - 40);
+            //}
+
+            //if (input > 10)
+            //{
+            //    return "X" + ConvertArabicToRomanNumeral(input - 10);
+            //}
+
+            //if (input > 5)
+            //{
+            //    return "V" + ConvertArabicToRomanNumeral(input - 5);
+            //}
+
+
+            //return "I" + ConvertArabicToRomanNumeral(input - 1);
         }
     }
 }
