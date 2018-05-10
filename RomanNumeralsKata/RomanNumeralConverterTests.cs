@@ -82,12 +82,6 @@ namespace RomanNumeralsKata
                     input -= input;
                 }
 
-                if (input > 50)
-                {
-                    result += "L";
-                    input -= 50;
-                }
-
                 if (input > 40)
                 {
                     result += "XL";
@@ -106,13 +100,7 @@ namespace RomanNumeralsKata
                     result += "V";
                     input -= 5;
                 }
-
-                if (input == 4)
-                {
-                    result += "IV";
-                    input -= 4;
-                }
-
+                
                 if (input > 0)
                 {
                     result += "I";
